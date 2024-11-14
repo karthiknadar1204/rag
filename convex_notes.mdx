@@ -1,3 +1,18 @@
+https://docs.convex.dev/database/reading-data
+
+
+Function Definition: You define your functions in Convex files (like fileStorage.js and user.js)
+
+API Generation: Convex automatically generates type-safe APIs from these functions
+
+Function Execution: When you call these functions from your components:
+useMutation hook provides a function to call the mutation
+The mutation is executed on Convex's servers
+Results are returned to your client
+
+
+
+
 ##Creating schema in convex
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
@@ -47,3 +62,12 @@ export const createUser = mutation({
 -->ctx.db.insert is used to insert the data into the database.
 
 
+
+
+
+
+
+
+##Convex File Storage
+https://docs.convex.dev/file-storage/upload-files
+store file-->convex file storage-->get url-->use url in the application-->load the text-->break text into chunks-->embed chunks-->store in vector database-->query vector database-->get response-->display response

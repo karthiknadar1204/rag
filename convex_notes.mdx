@@ -1,0 +1,49 @@
+##Creating schema in convex
+import { defineSchema, defineTable } from "convex/server";
+import { v } from "convex/values";
+
+export default defineSchema({
+  users: defineTable({
+    name: v.string(),
+    email: v.string(),
+    imageUrl: v.string(),
+  })
+})
+-->users is the name of the table,it could be anything.
+-->defineTable is used to define the schema of the table.
+-->v.string() is used to define the type of the column.
+--> The fields in the table are defined in the definable function, and they are validated by the convex values.
+
+
+
+
+##Accepting arguments in mutation
+import { mutation } from "./_generated/server";
+import { v } from "convex/values";
+export const createUser = mutation({
+    args: {
+        email: v.string(),
+        name: v.string(),
+        imageUrl: v.string(),
+    },
+    handler: async (ctx, args) => {
+        // check if user already exists
+        const user = await ctx.db.query('users').filter((q)=>q.eq(q.field('email'), args.email)).collect();
+        if (user?.length === 0) {
+            await ctx.db.insert('users', { //users is the name of the table
+                email: args.email,
+                name: args.name,
+                imageUrl: args.imageUrl,
+            });
+            return 'inserted new user'
+        }
+        return 'user already exists'
+    }
+})
+-->args is used to define the arguments that are accepted by the mutation.
+-->handler is used to define the logic of the mutation.
+-->ctx is used to access the database.
+-->ctx.db.query is used to query the database.
+-->ctx.db.insert is used to insert the data into the database.
+
+
